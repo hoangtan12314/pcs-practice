@@ -55,6 +55,22 @@ public class Cabinet {
     }
 
     public void searchPetById(){
+        String id;
+        Pet pet;
+        if (petList.isEmpty()){
+            System.out.println("The list is currently empty. Nothing here to search");
+            return;
+        }
+
+        id = Handelnput.retrieveString("Enter the ID that you want to search: ", "ID is required");
+        pet = searchPetObjectByID(id);
+        if (pet == null){
+            System.out.println("ID not found. Pet not exist!");
+        } else {
+            System.out.println("----------------------------");
+            System.out.println("Pet found! Here is the profile: ");
+            pet.showProfile();
+        }
 
     }
 
@@ -64,15 +80,24 @@ public class Cabinet {
         }
 
         for (int i = 0; i < petList.size(); i++){
-            if (petList.get(i).getId().equals(id)){
+            if (petList.get(i).getId().equalsIgnoreCase(id)){
                 return i;
             }
         }
         return -1;
     }
 
-    public void searchPetObjectByID(String id){
+    public Pet searchPetObjectByID(String id){
+        if (petList.isEmpty()){
+            return null;
+        }
 
+        for (Pet pet: petList) {
+            if (pet.getId().equalsIgnoreCase(id)){
+                return pet;
+            }
+        }
+        return null;
     }
 
     //only for testing

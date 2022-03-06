@@ -9,5 +9,7 @@ public class Test {
         cabinet.addNewCat();
         cabinet.addNewDog();
         cabinet.printPetList();
+        cabinet.searchPetById();
+        cabinet.searchPetById();
     }
 }
