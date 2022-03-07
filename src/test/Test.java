@@ -8,8 +8,9 @@ public class Test {
         Cabinet cabinet = new Cabinet();
         cabinet.addNewCat();
         cabinet.addNewDog();
-        cabinet.printPetList();
-        cabinet.searchPetById();
-        cabinet.searchPetById();
+        cabinet.addNewCat();
+        cabinet.addNewDog();
+        cabinet.printPetListAscendingByID();
+        cabinet.printPetListAscendingByName();
     }
 }

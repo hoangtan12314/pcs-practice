@@ -3,6 +3,8 @@ package data;
 import util.Handelnput;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Cabinet {
@@ -98,6 +100,120 @@ public class Cabinet {
             }
         }
         return null;
+    }
+
+    public void updatePetName(){
+        String newName, id;
+        Pet pet;
+        id = Handelnput.retrieveString("Enter the pet's ID that you want to update: ", "ID is required!");
+        pet = searchPetObjectByID(id);
+        if (pet == null){
+            System.out.println("ID not found. Pet not exist!");
+            return;
+        }
+        System.out.println("---------------------");
+        System.out.println("Here is the pet's profile: ");
+        pet.showProfile();
+        newName = Handelnput.retrieveString("Enter a new name: ", "A new name is required!");
+        pet.setName(newName);
+        System.out.println("Pet's name updated successfully.");
+    }
+
+    public void updatePetYob(){
+        int newYob;
+        String id;
+        Pet pet;
+
+        id = Handelnput.retrieveString("Enter the pet's ID that you want to update: ", "ID is required!");
+        pet = searchPetObjectByID(id);
+
+        if (pet == null){
+            System.out.println("ID not found. Pet not exist!");
+            return;
+        }
+
+        System.out.println("----------------------");
+        System.out.println("Here is the pet's profile: ");
+        pet.showProfile();
+        newYob = Handelnput.retrieveInteger("Enter pet's new year of birth (2000 - 2022): ",
+                "Invalid year of birth. Must be from 2000 to 2022!", 2000, 2022);
+        pet.setYob(newYob);
+        System.out.println("Pet's year of birth updated successfully.");
+    }
+
+    public void udpatePetWeight(){
+        double newWeight;
+        String id;
+        Pet pet;
+
+        id = Handelnput.retrieveString("Enter the pet's id that you want to update: ", "ID is required!");
+        pet = searchPetObjectByID(id);
+
+        if (pet == null){
+            System.out.println("ID not found. Pet not exist!");
+            return;
+        }
+
+        System.out.println("----------------------");
+        System.out.println("Here is the pet's profile: ");
+        pet.showProfile();
+        newWeight = Handelnput.retrieveDouble("Enter pet's new weight(0.1 - 99.0): ",
+                "Invalid weight. Must be from 0.1 to 99.9!", 0.1, 99.9);
+        pet.setWeight(newWeight);
+        System.out.println("Pet's weight updated successfully.");
+    }
+
+    public void removePet(){
+        String id;
+        Pet pet;
+
+        id = Handelnput.retrieveString("Enter the pet's id that you want to delete: ", "ID is required!");
+        pet = searchPetObjectByID(id);
+        if (pet == null){
+            System.out.println("ID not found. Pet not exist!");
+        }
+        System.out.println("----------------------");
+        System.out.println("The following pet profile will be removed:");
+        pet.showProfile();
+        petList.remove(pet);
+        System.out.println("Pet profile removed successfully.");
+    }
+
+    public void printPetListAscendingByID(){
+        if (petList.isEmpty()){
+            System.out.println("The list is currently empty. Nothing here to print!");
+        }
+
+        Collections.sort(petList);
+
+        System.out.println("Here is the list of pet profile with ID ascending: ");
+        System.out.printf("|%6s|%10s|%4s|%4s|%4s|\n",
+                            "ID", "NAME", "YOB", "WGT", "REC");
+        for (Pet pet: petList) {
+            pet.showProfile();
+        }
+    }
+
+    public void printPetListAscendingByName(){
+        if (petList.isEmpty()){
+            System.out.println("The list is currently empty. Nothing here to print!");
+        }
+
+        Comparator nameCompare = new Comparator<Pet>() {
+            @Override
+            public int compare(Pet o1, Pet o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        };
+
+        Collections.sort(petList, nameCompare);
+
+        System.out.println("Here is the list of pet profile with name ascending: ");
+        System.out.printf("|%6s|%10s|%4s|%4s|%4s|\n",
+                "ID", "NAME", "YOB", "WGT", "REC");
+        for (Pet pet: petList) {
+            pet.showProfile();
+        }
     }
 
     //only for testing
