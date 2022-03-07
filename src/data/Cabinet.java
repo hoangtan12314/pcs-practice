@@ -141,7 +141,7 @@ public class Cabinet {
         System.out.println("Pet's year of birth updated successfully.");
     }
 
-    public void udpatePetWeight(){
+    public void updatePetWeight(){
         double newWeight;
         String id;
         Pet pet;
@@ -161,6 +161,27 @@ public class Cabinet {
                 "Invalid weight. Must be from 0.1 to 99.9!", 0.1, 99.9);
         pet.setWeight(newWeight);
         System.out.println("Pet's weight updated successfully.");
+    }
+
+    public void updatePetInfo(){
+        int choice;
+        System.out.println("Here are the available information that you can update: ");
+        System.out.println("1. Name");
+        System.out.println("2. Year of birth");
+        System.out.println("3. Weight");
+        choice = Handelnput.retrieveInteger("Select pet information that you want to update: ",
+                "Option invalid. Must be from 1 to 3!", 1, 3);
+        switch (choice){
+            case 1:
+                updatePetName();
+                break;
+            case 2:
+                updatePetYob();
+                break;
+            case 3:
+                updatePetWeight();
+                break;
+        }
     }
 
     public void removePet(){
