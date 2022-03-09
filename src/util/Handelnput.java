@@ -93,5 +93,21 @@ public class Handelnput {
         } while (true);
     }
 
+    public static boolean isDogID(String id){
+        char firstChar = id.charAt(0);
+        if (firstChar == 'D' || firstChar == 'd')
+            return true;
+
+        return false;
+    }
+
+    public static boolean isCatID(String id){
+        char firstChar = id.charAt(0);
+        if (firstChar == 'C' || firstChar == 'c')
+            return true;
+
+        return false;
+    }
+
 
 }

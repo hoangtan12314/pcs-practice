@@ -1,14 +1,66 @@
 package data;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import util.Handelnput;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public class Cabinet {
-    private List<Pet> petList = new ArrayList<>();
+    private static final String COMMA_SPACE_DELIMITER = ", ";
+    private static final String NEW_LINE_SEPERATOR = "\n";
+
+    private List<Pet> petList = retrievePetData();
+
+    private ArrayList<Pet> retrievePetData(){
+        ArrayList<Pet> petList = new ArrayList<>();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("src/file/PetProfile.csv"));
+            String line;
+            while ((line = br.readLine()) != null){
+                String data[] = line.split(", ");
+                if (Handelnput.isDogID(data[0])){
+                    Dog dog = new Dog(data[0], data[1], Integer.parseInt(data[2]), Double.parseDouble(data[3]));
+                    petList.add(dog);
+                }
+
+                if (Handelnput.isCatID(data[0])){
+                    Cat cat = new Cat(data[0], data[1], Integer.parseInt(data[2]), Double.parseDouble(data[3]));
+                    petList.add(cat);
+                }
+            }
+        } catch (Exception e){
+            System.out.println("Error while open file");
+        }
+        return petList;
+    }
+
+    private void updateDataFile(List<Pet> petList){
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter("src/file/PetProfile.csv");
+             for (Pet pet: petList){
+                 fw.append(pet.getId());
+                 fw.append(COMMA_SPACE_DELIMITER);
+                 fw.append(pet.getName());
+                 fw.append(COMMA_SPACE_DELIMITER);
+                 fw.append(String.valueOf(pet.getYob()));
+                 fw.append(COMMA_SPACE_DELIMITER);
+                 fw.append(String.valueOf(pet.getWeight()));
+                 fw.append(NEW_LINE_SEPERATOR);
+             }
+
+             fw.flush();
+             fw.close();
+        } catch (Exception e){
+            System.out.println("Error while processing file");
+        }
+    }
 
     public void addNewCat(){
         String id, name;
@@ -30,6 +82,7 @@ public class Cabinet {
         weight = Handelnput.retrieveDouble("Enter cat's weight: ",
                 "Invalid weight. Weight must be from 0.1 to 99.9!", 0.1, 99.9);
         petList.add(new Cat(id, name, yob, weight));
+        updateDataFile(petList);
         System.out.println("A cat profile has been added successfully.");
     }
 
@@ -53,6 +106,7 @@ public class Cabinet {
         weight = Handelnput.retrieveDouble("Enter dog's weight: ",
                 "Invalid weight. Weight must be from 0.1 to 99.9!", 0.1, 99.9);
         petList.add(new Dog(id, name, yob, weight));
+        updateDataFile(petList);
         System.out.println("A dog profile has been added successfully.");
     }
 
@@ -116,6 +170,7 @@ public class Cabinet {
         pet.showProfile();
         newName = Handelnput.retrieveString("Enter a new name: ", "A new name is required!");
         pet.setName(newName);
+        updateDataFile(petList);
         System.out.println("Pet's name updated successfully.");
     }
 
@@ -138,6 +193,7 @@ public class Cabinet {
         newYob = Handelnput.retrieveInteger("Enter pet's new year of birth (2000 - 2022): ",
                 "Invalid year of birth. Must be from 2000 to 2022!", 2000, 2022);
         pet.setYob(newYob);
+        updateDataFile(petList);
         System.out.println("Pet's year of birth updated successfully.");
     }
 
@@ -160,6 +216,7 @@ public class Cabinet {
         newWeight = Handelnput.retrieveDouble("Enter pet's new weight(0.1 - 99.0): ",
                 "Invalid weight. Must be from 0.1 to 99.9!", 0.1, 99.9);
         pet.setWeight(newWeight);
+        updateDataFile(petList);
         System.out.println("Pet's weight updated successfully.");
     }
 
@@ -197,6 +254,7 @@ public class Cabinet {
         System.out.println("The following pet profile will be removed:");
         pet.showProfile();
         petList.remove(pet);
+        updateDataFile(petList);
         System.out.println("Pet profile removed successfully.");
     }
 
@@ -208,8 +266,8 @@ public class Cabinet {
         Collections.sort(petList);
 
         System.out.println("Here is the list of pet profile with ID ascending: ");
-        System.out.printf("|%6s|%10s|%4s|%4s|%4s|\n",
-                            "ID", "NAME", "YOB", "WGT", "REC");
+        System.out.printf("|%6s|%10s|%4s|%4s|\n",
+                            "ID", "NAME", "YOB", "WGT");
         for (Pet pet: petList) {
             pet.showProfile();
         }
@@ -230,18 +288,13 @@ public class Cabinet {
         Collections.sort(petList, nameCompare);
 
         System.out.println("Here is the list of pet profile with name ascending: ");
-        System.out.printf("|%6s|%10s|%4s|%4s|%4s|\n",
-                "ID", "NAME", "YOB", "WGT", "REC");
+        System.out.printf("|%6s|%10s|%4s|%4s|\n",
+                "ID", "NAME", "YOB", "WGT");
         for (Pet pet: petList) {
             pet.showProfile();
         }
     }
 
-    //only for testing
-    public void printPetList(){
-        for (Pet pet: petList) {
-            pet.showProfile();
-        }
-    }
+
 
 }

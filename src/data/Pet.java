@@ -47,8 +47,6 @@ public abstract class Pet implements Comparable<Pet> {
         this.weight = weight;
     }
 
-    public abstract double run();
-
     public abstract void showProfile();
 
     @Override

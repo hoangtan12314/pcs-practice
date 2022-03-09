@@ -9,14 +9,10 @@ public class Dog extends Pet{
         super(id, name, yob, weight);
     }
 
-    @Override
-    public double run() {
-        return new Random().nextDouble() * MAX_SPD;
-    }
 
     @Override
     public void showProfile() {
-        System.out.printf("|%6s|%-10s|%4d|%4.1f|%4.1f|\n",
-                id, name, yob, weight, run());
+        System.out.printf("|%6s|%-10s|%4d|%4.1f|\n",
+                id, name, yob, weight);
     }
 }

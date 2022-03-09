@@ -5,12 +5,8 @@ import util.Handelnput;
 
 public class Test {
 //    public static void main(String[] args) {
-//        Cabinet cabinet = new Cabinet();
-//        cabinet.addNewCat();
-//        cabinet.addNewDog();
-//        cabinet.addNewCat();
-//        cabinet.addNewDog();
-//        cabinet.printPetListAscendingByID();
-//        cabinet.printPetListAscendingByName();
+//        System.out.println(Handelnput.isDogID("c00002"));
+//        System.out.println(Handelnput.isDogID("d00002"));
+//        System.out.println(Handelnput.isCatID("C00002"));
 //    }
 }
